@@ -12,6 +12,11 @@ struct CalendarView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @State private var selectedDate = Date()
     
+    @FetchRequest(
+        entity: DailyCount.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \DailyCount.date, ascending: true)]
+    ) private var  allCounts: FetchedResults<DailyCount>
+
     var body: some View {
         NavigationView {
             VStack {
@@ -20,7 +25,7 @@ struct CalendarView: View {
                            displayedComponents: [.date])
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .padding()
-                DailyCountView(date: selectedDate)
+                DailyCountView(date: selectedDate, counts: allCounts)
             }
             .navigationTitle("History")
         }
@@ -28,26 +33,24 @@ struct CalendarView: View {
 }
 
 struct DailyCountView: View {
-    @State private var date: Date
-    @FetchRequest var dailyCounts: FetchedResults<DailyCount>
+    let date: Date
+    let counts: FetchedResults<DailyCount>
     
-    init(date: Date) {
-        self._date = State(initialValue: date)
+    var dailyCount: Int32 {
         let calendar = Calendar.current
         let startDate = calendar.startOfDay(for: date)
         let endDate = calendar.date(byAdding: .day, value: 1, to: startDate)!
-        
-        _dailyCounts = FetchRequest(
-            entity: DailyCount.entity(),
-            sortDescriptors: [NSSortDescriptor(keyPath: \DailyCount.date, ascending: true)],
-            predicate: NSPredicate(format: "date >= %@ AND date < %@", startDate as NSDate, endDate as NSDate)
-        )
+
+        return counts.first(where: { count in
+            let countDate = calendar.startOfDay(for: count.date ?? Date())
+            return countDate >= startDate && countDate < endDate
+        })?.count ?? 0
     }
     
     var body: some View {
         VStack {
-            if let count = dailyCounts.first?.count {
-                Text("Goldens spotted: \(count)").font(.title2)
+            if dailyCount > 0 {
+                Text("Goldens spotted: \(dailyCount)").font(.title2)
             } else {
                 Text("No Goldies spotted this day").foregroundColor(.secondary)
             }
