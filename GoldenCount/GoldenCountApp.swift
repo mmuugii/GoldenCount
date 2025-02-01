@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct GoldenCountApp: App {
-    let persistenceController = PersistenceController.shared
+    let goldenCount = GoldenCount.shared
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            MainTabView()
+                .environment(\.managedObjectContext, goldenCount.container.viewContext)
         }
     }
 }
