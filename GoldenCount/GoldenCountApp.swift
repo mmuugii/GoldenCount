@@ -10,11 +10,19 @@ import SwiftUI
 @main
 struct GoldenCountApp: App {
     let goldenCount = GoldenCount.shared
-
+    @StateObject private var authManager = AuthenticationManager.shared
+    
+    init() {
+        authManager.checkAuthentication()
+    }
     var body: some Scene {
         WindowGroup {
-            MainTabView()
-                .environment(\.managedObjectContext, goldenCount.container.viewContext)
+            if authManager.isAuthenticated {
+                MainTabView()
+                    .environment(\.managedObjectContext, goldenCount.container.viewContext)
+            } else {
+                LoginView()
+            }
         }
     }
 }
