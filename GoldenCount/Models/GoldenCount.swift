@@ -9,9 +9,11 @@ import Foundation
 import CoreData
 
 class GoldenCount: ObservableObject {
-    @Published var count: Int = 0
-    @Published var date: Date = Date()
-    
+    @Published var count: Int = 0 {
+        didSet {
+            objectWillChange.send()
+        }
+    }
     static let shared = GoldenCount()
     let container: NSPersistentContainer
     
@@ -21,13 +23,6 @@ class GoldenCount: ObservableObject {
             if let error = error {
                 print("Core Data failed to load: \(error.localizedDescription)")
             }
-        }
-    }
-    func save(context: NSManagedObjectContext) {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context: \(error)")
         }
     }
 }

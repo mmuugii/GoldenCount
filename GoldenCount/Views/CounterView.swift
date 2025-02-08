@@ -42,26 +42,36 @@ struct CounterView: View {
     
     private func incrementCount() {
         goldenCount.count += 1
-            saveDailyCount()
+            updateDailyCount()
     }
     
     private func decrementCount() {
         if goldenCount.count > 0 {
             goldenCount.count -= 1
-            saveDailyCount()
+            updateDailyCount()
         }
     }
     
-    private func saveDailyCount() {
-        let dailyCount  = DailyCount(context: viewContext)
-        dailyCount.date = Date()
-        dailyCount.count = Int32(goldenCount.count)
-        
+    private func updateDailyCount() {
+        let fetchRequest: NSFetchRequest<DailyCount> = DailyCount.fetchRequest()
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        fetchRequest.predicate = NSPredicate(format: "date >= %@ AND date < %@",
+                                             today as NSDate, calendar.date(byAdding: .day, value: 1, to: today)! as NSDate)
         do {
+            let results = try viewContext.fetch(fetchRequest)
+            if let existingCount = results.first {
+                existingCount.count = Int32(goldenCount.count)
+            } else {
+                let dailyCount = DailyCount(context: viewContext)
+                dailyCount.date = Date()
+                dailyCount.count = Int32(goldenCount.count)
+            }
             try viewContext.save()
         } catch {
-            print("Error saving count: \(error)")
+            print("Error saving/updating count: \(error)")
         }
+        
     }
     
     private func loadTodayCount() {

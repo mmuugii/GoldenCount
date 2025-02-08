@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct GoldenCountApp: App {
     let goldenCount = GoldenCount.shared
-    @StateObject private var authManager = AuthenticationManager.shared
+    private var authManager = AuthenticationManager.shared
     
     init() {
         authManager.checkAuthentication()

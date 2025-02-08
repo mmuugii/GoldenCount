@@ -9,9 +9,11 @@ import SwiftUI
 import AuthenticationServices
 
 struct LoginView: View {
-    @StateObject private var authManager = AuthenticationManager.shared
+    @ObservedObject private var authManager = AuthenticationManager.shared
     @State private var showError = false
     @State private var errorMessage = ""
+    @State private var email: String = ""
+    @State private var password: String = ""
     
     var body: some View {
         VStack(spacing: 20) {
@@ -28,23 +30,28 @@ struct LoginView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             
-            SignInWithAppleButton(
-                onRequest: { request in
-                    request.requestedScopes = [.fullName, .email]
-                },
-                onCompletion: { result in
-                    Task {
-                        do {
-                            try await authManager.signInWithApple()
-                        } catch {
-                            showError = true
-                            errorMessage = error.localizedDescription
-                        }
-                    }
+            VStack(spacing: 15) {
+                TextField("Email", text: $email)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .autocapitalization(.none)
+                    .keyboardType(.emailAddress)
+                SecureField("Password", text: $password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                Button(action: signIn) {
+                    Text("Sign In")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.orange)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                 }
-            )
-            .frame(height: 45)
+            }
             .padding(.horizontal, 40)
+            
+            Text("Development Build: Any non-empty email/password will work")
+                .font(.caption)
+                .foregroundColor(.secondary)
         }
         .padding()
         .alert("Sign In Error", isPresented: $showError) {
@@ -53,4 +60,40 @@ struct LoginView: View {
             Text(errorMessage)
         }
     }
+    private func signIn() {
+        if email.isEmpty || password.isEmpty {
+            showError = true
+            errorMessage = "Please enter both email and password"
+            return
+        }
+        
+        authManager.signInWithTestAccount(email: email, password: password)
+    }
 }
+            
+//            SignInWithAppleButton(
+//                onRequest: { request in
+//                    request.requestedScopes = [.fullName, .email]
+//                },
+//                onCompletion: { result in
+//                    Task {
+//                        do {
+//                            try await authManager.signInWithApple()
+//                        } catch {
+//                            showError = true
+//                            errorMessage = error.localizedDescription
+//                        }
+//                    }
+//                }
+//            )
+//            .frame(height: 45)
+//            .padding(.horizontal, 40)
+//        }
+//        .padding()
+//        .alert("Sign In Error", isPresented: $showError) {
+//            Button("OK", role: .cancel) { }
+//        } message: {
+//            Text(errorMessage)
+//        }
+//    }
+//}
