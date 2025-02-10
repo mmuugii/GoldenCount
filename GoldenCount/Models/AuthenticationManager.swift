@@ -11,6 +11,9 @@ import AuthenticationServices
 class AuthenticationManager: ObservableObject {
     @Published var isAuthenticated: Bool = false
     @Published var userId: String?
+    @Published var userEmail: String?
+    @Published var authProvider: String?
+    @Published var userDisplayName: String?
     
     static let shared = AuthenticationManager()
     
@@ -18,6 +21,10 @@ class AuthenticationManager: ObservableObject {
         if !email.isEmpty && !password.isEmpty {
             let testUserId = "test_\(email.split(separator: "@").first ?? "")"
             self.userId = testUserId
+            self.userEmail = email
+            self.userDisplayName = "Test User"
+            self.authProvider = "Test Account"
+            
             UserDefaults.standard.set(testUserId, forKey: "userId")
             isAuthenticated = true
         }
@@ -25,6 +32,9 @@ class AuthenticationManager: ObservableObject {
     func signOut() {
         isAuthenticated = false
         userId = nil
+        userEmail = nil
+        authProvider = nil
+        userDisplayName = nil
         UserDefaults.standard.removeObject(forKey: "userId")
     }
     

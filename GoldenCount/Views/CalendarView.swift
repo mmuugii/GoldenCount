@@ -18,14 +18,21 @@ struct CalendarView: View {
     ) private var  allCounts: FetchedResults<DailyCount>
 
     var body: some View {
-        NavigationView {
-            VStack {
-                DatePicker("Select Date",
-                           selection: $selectedDate,
-                           displayedComponents: [.date])
+        NavigationStack {
+            ScrollView {
+                VStack {
+                    DatePicker(
+                        "Select Date",
+                        selection: $selectedDate,
+                        displayedComponents: [.date]
+                    )
                     .datePickerStyle(GraphicalDatePickerStyle())
+                    .frame(minHeight: 400)
                     .padding()
-                DailyCountView(date: selectedDate, counts: allCounts)
+                    DailyCountView(date: selectedDate, counts: allCounts)
+                        .padding(.bottom)
+                }
+                .frame(maxWidth: .infinity)
             }
             .navigationTitle("History")
         }

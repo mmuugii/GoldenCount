@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import UIKit
 
 struct CounterView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -43,6 +44,10 @@ struct CounterView: View {
     private func incrementCount() {
         goldenCount.count += 1
             updateDailyCount()
+        
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.prepare()
+        generator.impactOccurred()
     }
     
     private func decrementCount() {
