@@ -1,0 +1,48 @@
+#
+//  .swiftlint.yml
+//  GoldenCount
+//
+//  Created by Muugii M. on 2/15/25.
+//
+included:
+  - GoldenCount
+excluded:
+  - GoldenCountTests
+  - GoldenCountUITests
+  - Pods
+
+only_rules:
+  - colon
+  - implicitly_unwrapped_optional
+  - force_cast
+  - force_try
+  - force_unwrapping
+  - function_parameter_count
+  - leading_whitespace
+  - legacy_constant
+  - legacy_constructor
+  - line_length
+  - missing_docs
+  - nesting
+  - operator_whitespace
+  - redundant_string_enum_value
+  - return_arrow_whitespace
+  - trailing_newline
+  - type_name
+  - valid_ibinspectable
+  - void_return
+  - weak_delegate
+  - indent
+
+indent:
+  severity: warning
+  indentation: 4
+
+excluded:
+  - GoldenCountTests
+  - GoldenCountUITests
+  - Pods
+
+line_length:
+  warning: 120
+  error: 200

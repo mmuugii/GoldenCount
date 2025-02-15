@@ -9,41 +9,41 @@ import SwiftUI
 import AuthenticationServices
 
 class AuthenticationManager: ObservableObject {
-    @Published var isAuthenticated: Bool = false
-    @Published var userId: String?
-    @Published var userEmail: String?
-    @Published var authProvider: String?
-    @Published var userDisplayName: String?
-    
-    static let shared = AuthenticationManager()
-    
-    func signInWithTestAccount(email: String, password: String) {
-        if !email.isEmpty && !password.isEmpty {
-            let testUserId = "test_\(email.split(separator: "@").first ?? "")"
-            self.userId = testUserId
-            self.userEmail = email
-            self.userDisplayName = "Test User"
-            self.authProvider = "Test Account"
-            
-            UserDefaults.standard.set(testUserId, forKey: "userId")
-            isAuthenticated = true
-        }
+  @Published var isAuthenticated: Bool = false
+  @Published var userId: String?
+  @Published var userEmail: String?
+  @Published var authProvider: String?
+  @Published var userDisplayName: String?
+  
+  static let shared = AuthenticationManager()
+  
+  func signInWithTestAccount(email: String, password: String) {
+    if !email.isEmpty && !password.isEmpty {
+      let testUserId = "test_\(email.split(separator: "@").first ?? "")"
+      self.userId = testUserId
+      self.userEmail = email
+      self.userDisplayName = "Test User"
+      self.authProvider = "Test Account"
+      
+      UserDefaults.standard.set(testUserId, forKey: "userId")
+      isAuthenticated = true
     }
-    func signOut() {
-        isAuthenticated = false
-        userId = nil
-        userEmail = nil
-        authProvider = nil
-        userDisplayName = nil
-        UserDefaults.standard.removeObject(forKey: "userId")
+  }
+  func signOut() {
+    isAuthenticated = false
+    userId = nil
+    userEmail = nil
+    authProvider = nil
+    userDisplayName = nil
+    UserDefaults.standard.removeObject(forKey: "userId")
+  }
+  
+  func checkAuthentication() {
+    if let userId = UserDefaults.standard.string(forKey: "userId") {
+      self.userId = userId
+      isAuthenticated = true
     }
-    
-    func checkAuthentication() {
-        if let userId = UserDefaults.standard.string(forKey: "userId") {
-            self.userId = userId
-            isAuthenticated = true
-        }
-    }
+  }
 }
 //    @MainActor
 //    func signInWithApple() async throws {
@@ -82,9 +82,9 @@ class AuthenticationManager: ObservableObject {
 //            isAuthenticated = true
 //        }
 //    }
-//}
+// }
 
-//private class SignInDelegate: NSObject, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+// private class SignInDelegate: NSObject, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
 //    let continuation: CheckedContinuation<ASAuthorization, Error>
 //    
 //    init(continuation: CheckedContinuation<ASAuthorization, Error>) {
@@ -112,8 +112,8 @@ class AuthenticationManager: ObservableObject {
 //            continuation.resume(throwing: error)
 //        }
 //    }
-//}
+// }
 //
-//enum AuthError: Error {
+// enum AuthError: Error {
 //    case invalidCredential
-//}
+// }
