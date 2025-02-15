@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4E4CAC5A2D614A680051B801 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4E4CAC592D614A580051B801 /* .swiftlint.yml */; };
+		4E4CAC5D2D614AE00051B801 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 4E4CAC5C2D614AD50051B801 /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		4E2D03DF2D4DD2DE001E3C0C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +32,8 @@
 		4E2D03C92D4DD2DC001E3C0C /* GoldenCount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoldenCount.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E2D03DE2D4DD2DE001E3C0C /* GoldenCountTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoldenCountTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E2D03E82D4DD2DE001E3C0C /* GoldenCountUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoldenCountUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E4CAC592D614A580051B801 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		4E4CAC5C2D614AD50051B801 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -56,6 +63,11 @@
 		4E2D03EB2D4DD2DE001E3C0C /* GoldenCountUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = GoldenCountUITests;
+			sourceTree = "<group>";
+		};
+		4E4CAC652D6150820051B801 /* .github */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = .github;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -92,6 +104,9 @@
 				4E2D03E12D4DD2DE001E3C0C /* GoldenCountTests */,
 				4E2D03EB2D4DD2DE001E3C0C /* GoldenCountUITests */,
 				4E2D03CA2D4DD2DC001E3C0C /* Products */,
+				4E4CAC652D6150820051B801 /* .github */,
+				4E4CAC592D614A580051B801 /* .swiftlint.yml */,
+				4E4CAC5C2D614AD50051B801 /* .gitignore */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,6 +130,7 @@
 				4E2D03C52D4DD2DC001E3C0C /* Sources */,
 				4E2D03C62D4DD2DC001E3C0C /* Frameworks */,
 				4E2D03C72D4DD2DC001E3C0C /* Resources */,
+				4E4CAC5B2D614A9D0051B801 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -122,6 +138,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				4E2D03CB2D4DD2DC001E3C0C /* GoldenCount */,
+				4E4CAC652D6150820051B801 /* .github */,
 			);
 			name = GoldenCount;
 			packageProductDependencies = (
@@ -225,6 +242,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E4CAC5D2D614AE00051B801 /* .gitignore in Resources */,
+				4E4CAC5A2D614A680051B801 /* .swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +262,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4E4CAC5B2D614A9D0051B801 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4E2D03C52D4DD2DC001E3C0C /* Sources */ = {
